@@ -36,7 +36,7 @@ mean_std_vars <- grep("mean|std", features$V2, ignore.case = TRUE)
 
 # to be used later in task 4 of the project, we need to have the names
 
-var_names <- features[grepl("mean|std",features$V2, ignore.case = TRUE),2 ]
+var_names <- features[grepl("mean()|std",features$V2, ignore.case = TRUE),2 ]
 
 
 #later on, we want to select the columns by the value of the mean_std_vars,
@@ -81,6 +81,6 @@ complete <- mutate(all_cols, activity.name=act_names[xfactors])
 # Finally, to do the final task, we need to reshape data, so that ev very line is for one subject and one activity and one variable
 
 
-comp2 <- melt(complete, id=c("sbj_ID","activity.name"))
+comp2 <- melt(complete, id=c("sbj_ID","activity.name"), measure.vars = c(3:88)   )
 
 
