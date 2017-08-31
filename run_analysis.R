@@ -1,22 +1,26 @@
 
 #This R script anlyzes in the activity data sets
 
+# first loading dplyr
+
+library(dplyr)
+
 # step 1: reading the files (This scripts assumes that the data folder is in the folder that the script is running)
 
-#x_test <- read.table("./UCI\ HAR\ Dataset/test/X_test.txt")
-#y_test <- read.table("./UCI\ HAR\ Dataset/test/y_test.txt")
-#sbj_test <- read.table("./UCI\ HAR\ Dataset/test/subject_test.txt")
+x_test <- read.table("./UCI\ HAR\ Dataset/test/X_test.txt")
+y_test <- read.table("./UCI\ HAR\ Dataset/test/y_test.txt")
+sbj_test <- read.table("./UCI\ HAR\ Dataset/test/subject_test.txt")
 
 
-#x_train <- read.table("./UCI\ HAR\ Dataset/train/X_train.txt")
-#y_train <- read.table("./UCI\ HAR\ Dataset/train/y_train.txt")
-#sbj_train <- read.table("./UCI\ HAR\ Dataset/train/subject_train.txt")
+x_train <- read.table("./UCI\ HAR\ Dataset/train/X_train.txt")
+y_train <- read.table("./UCI\ HAR\ Dataset/train/y_train.txt")
+sbj_train <- read.table("./UCI\ HAR\ Dataset/train/subject_train.txt")
 
 # and for future references, I need the activity labels:
 
-#activities <- read.table("./UCI\ HAR\ Dataset/activity_labels.txt")
+activities <- read.table("./UCI\ HAR\ Dataset/activity_labels.txt")
 
-#features <- read.table("./UCI\ HAR\ Dataset/features.txt")
+features <- read.table("./UCI\ HAR\ Dataset/features.txt")
 
 
 #step 2: merging the data frames: 
@@ -36,7 +40,7 @@ mean_std_vars <- grep("mean|std", features$V2, ignore.case = TRUE)
 
 # to be used later in task 4 of the project, we need to have the names
 
-var_names <- features[grepl("mean()|std",features$V2, ignore.case = TRUE),2 ]
+var_names <- features[grepl("mean()$|std()$",features$V2, ignore.case = TRUE),2 ]
 
 
 #later on, we want to select the columns by the value of the mean_std_vars,
@@ -83,4 +87,4 @@ complete <- mutate(all_cols, activity.name=act_names[xfactors])
 
 comp2 <- melt(complete, id=c("sbj_ID","activity.name"), measure.vars = c(3:88)   )
 
-
+write.table(comp2, file = "final_humanActivity.txt", row.names = FALSE)
